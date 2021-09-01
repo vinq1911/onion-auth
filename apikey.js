@@ -1,19 +1,25 @@
 const nJwt = require('njwt');
 const secureRandom = require('secure-random');
 const expiration = process.env.JWT_LIFETIME || 36000;
+const { bulklogger } = require('./logger');
 
-const bulklogger = {
-    info: console.log,
-    warn: console.warn,
-    error: console.error,
-    debug: console.log
-}
 
 /// jwt middleware to handle bearer token validation
 const createToken = ({iss, sub, scope}, signkey, logger = bulklogger) => {
     logger.debug(`Token created: ${iss} ${sub} ${scope}`);
     return nJwt.create({iss, sub, scope}, signkey).setExpiration(new Date().getTime() + (expiration*1000)).setNotBefore(new Date().getTime()).compact();
 }
+
+const enforceAuth = (next, logger = bulklogger) => (req, res) => {
+    if (req.authorization?.authorized) {
+        logger.debug('Passed authorized request forward');
+        next(req, res);
+    } else {
+        logger.debug('Denied unauthorized request');
+        res.status(401).send('Not authorized');
+    }
+}
+
 
 const enforceScope = (_scope, cb, bcb, logger = bulklogger) => {
     return (req, res) => {
@@ -65,5 +71,5 @@ const init = () => {
 }
 
 module.exports = {
-    checkApiKey, init, enforceScope, createToken
+    checkApiKey, init, enforceScope, createToken, enforceAuth
 }
