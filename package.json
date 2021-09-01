@@ -1,0 +1,34 @@
+{
+  "name": "onion-auth",
+  "version": "1.0.0",
+  "description": "Onion Interactive Auth Service Layer",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vinq1911/onion-auth.git"
+  },
+  "keywords": [
+    "onion",
+    "onion",
+    "interactive",
+    "auth",
+    "cupcake"
+  ],
+  "author": "Tuomas A. Soinne",
+  "license": "GPLv3",
+  "bugs": {
+    "url": "https://github.com/vinq1911/onion-auth/issues"
+  },
+  "homepage": "https://github.com/vinq1911/onion-auth#readme",
+  "dependencies": {
+    "njwt": "^1.1.0",
+    "secure-random": "^1.1.2"
+  },
+  "devDependencies": {
+    "assert": "^2.0.0",
+    "mocha": "^9.1.1"
+  }
+}
